@@ -1,5 +1,11 @@
 version: 0.2
 
+env:
+  variables:
+    SOLUTION: .\WebApplication2.sln
+    PACKAGE_DIRECTORY: .\packages
+    DOTNET_FRAMEWORK: 4.7.2
+    
 # Assumes the image is microsoft/dotnet-framework:4.7.2-sdk or similar
 phases:
   install:
@@ -14,4 +20,7 @@ phases:
       - nuget restore
   build:
     commands:
-      - msbuild /P:Configuration=Release /T:Build,Package
+      - msbuild -p:FrameworkPathOverride="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v$env:DOTNET_FRAMEWORK" $env:SOLUTION
+artifacts:
+  files:
+    - .\WebApplication2\bin\*
